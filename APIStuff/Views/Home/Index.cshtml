@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model QuizQuestion
+
+
+@foreach(var question in Model.results)
+{
+    var allAnswers = new List<string>(Model.results[0].incorrect_answers);
+    allAnswers.Add(Model.results[0].correct_answer);
+
+    var randomRNG = new Random();
+    allAnswers = allAnswers.OrderBy(a => randomRNG.Next()).ToList();
+
+    <div class="question-block">
+        <h1>@Html.Raw(question.question)</h1>
+
+        @foreach (var answer in allAnswers)
+        {
+            <h2>@Html.Raw(answer)</h2>
+            <input type="checkbox">
+        }
+
+
+        <p style="display:none;">@Html.Raw(question.correct_answer)</p>
+    </div>
+}
+
+<form method="get">
+    <button type="button" class="btn btn-primary">Next question</button>
+</form>
+
+
+
